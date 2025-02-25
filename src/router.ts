@@ -7,11 +7,11 @@ import {
 const routes: RouterOptions["routes"] = [
   {
     path: "/",
-    component: () => import("./modules/authentication/pages/login.vue"),
+    component: () => import("~/modules/authentication/pages/login.vue"),
   },
   {
     path: "/register",
-    component: () => import("./modules/authentication/pages/register.vue"),
+    component: () => import("~/modules/authentication/pages/register.vue"),
   },
 ];
 

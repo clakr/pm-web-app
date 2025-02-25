@@ -2,5 +2,5 @@
 
 <template>
   <h1>hello this is register route</h1>
-  <RouterLink to="/">login</RouterLink>
+  <RouterLink to="/"> login </RouterLink>
 </template>
