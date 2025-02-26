@@ -1,21 +1,10 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
-import { supabase } from "~/supabase";
+import { useAuthStore } from "~/stores/authStore";
 
-const router = useRouter();
-
-async function handleLogout() {
-  await supabase.auth.signOut();
-
-  router.push({
-    name: "login",
-    replace: true,
-  });
-}
+const authStore = useAuthStore();
 </script>
 
 <template>
-  <button type="button" @click="handleLogout">signout</button>
+  <button type="button" @click="authStore.logoutUser">signout</button>
   <h1>this is organizations</h1>
-  <RouterLink to="/login"> login </RouterLink>
 </template>

@@ -3,7 +3,7 @@ import {
   createRouter,
   type RouterOptions,
 } from "vue-router";
-import { supabase } from "~/supabase";
+import { useAuthStore } from "~/stores/authStore";
 
 const routes: RouterOptions["routes"] = [
   {
@@ -38,21 +38,34 @@ export const router = createRouter({
 });
 
 router.beforeEach(async (to, from) => {
-  const { data } = await supabase.auth.getSession();
+  const authStore = useAuthStore();
+  const isAuthenticated = authStore.isAuthenticated;
 
-  if (to.meta.requiresAuth && data.session) {
-    return true;
-  } else if (to.meta.requiresAuth && !data.session) {
-    return {
-      name: "login",
-      replace: true,
-    };
-  } else if (!to.meta.requiresAuth && data.session) {
-    return {
-      name: from.name,
-      replace: true,
-    };
+  try {
+    if (to.meta.requiresAuth) {
+      await authStore.getSessionUser();
+
+      if (isAuthenticated) {
+        return true;
+      } else {
+        return {
+          name: "login",
+        };
+      }
+    } else {
+      if (isAuthenticated) {
+        return {
+          name: from.name,
+        };
+      } else {
+        return true;
+      }
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return {
+        name: "login",
+      };
+    }
   }
-
-  return true;
 });

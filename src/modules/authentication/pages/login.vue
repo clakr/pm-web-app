@@ -1,29 +1,19 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 import { reactive } from "vue";
-import { useRouter } from "vue-router";
-import { supabase } from "~/supabase";
+import { useAuthStore } from "~/stores/authStore";
 
-const router = useRouter();
+const authStore = useAuthStore();
 
 const form = reactive({
   email: "",
   password: "",
 });
-
-async function handleLogin() {
-  await supabase.auth.signInWithPassword(form);
-
-  router.push({
-    name: "organizations-index",
-    replace: true,
-  });
-}
 </script>
 
 <template>
   <main class="grid min-h-svh place-content-center">
-    <form class="grid w-md gap-y-3" @submit.prevent="handleLogin">
+    <form class="grid w-md gap-y-3" @submit.prevent="authStore.loginUser(form)">
       <div class="text-center">
         <h1 class="gap-x-1">
           Welcome to
