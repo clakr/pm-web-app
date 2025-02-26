@@ -9,9 +9,11 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "precommit": "eslint . --fix && prettier . --write"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
     "vue": "3.5.13",
     "vue-router": "4.5.0"
   },
@@ -27,9 +29,15 @@
     "eslint-plugin-vue": "9.32.0",
     "prettier": "3.5.2",
     "prettier-plugin-tailwindcss": "0.6.11",
+    "supabase": "2.15.8",
     "tailwindcss": "4.0.8",
     "typescript": "~5.7.2",
     "vite": "6.2.0",
     "vue-tsc": "2.2.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "supabase"
+    ]
   }
 }
