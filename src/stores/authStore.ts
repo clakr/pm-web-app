@@ -18,6 +18,8 @@ export const useAuthStore = defineStore("auth", () => {
 
     if (error) throw new Error(error.message);
 
+    await getAuthRole();
+
     auth.value = data.user;
 
     router.push({
@@ -25,20 +27,19 @@ export const useAuthStore = defineStore("auth", () => {
       replace: true,
     });
   }
-
   async function logoutUser() {
     const { error } = await supabase.auth.signOut();
 
     if (error) throw new Error(error.message);
 
     auth.value = null;
+    role.value = null;
 
     router.push({
       name: "login",
       replace: true,
     });
   }
-
   async function getSessionUser() {
     if (auth.value) return;
 
@@ -46,8 +47,34 @@ export const useAuthStore = defineStore("auth", () => {
 
     if (error) throw new Error(error.message);
 
+    await getAuthRole();
+
     auth.value = data.user;
   }
 
-  return { auth, isAuthenticated, loginUser, logoutUser, getSessionUser };
+  //
+
+  const role = ref<string | null>(null);
+
+  async function getAuthRole() {
+    const { error, data } = await supabase.from("user_roles").select();
+
+    if (error) throw new Error(error.message);
+
+    const userData = data.at(0);
+    if (!userData) throw new Error("no data found");
+
+    role.value = userData.role_name;
+  }
+
+  return {
+    auth,
+    isAuthenticated,
+    loginUser,
+    logoutUser,
+    getSessionUser,
+
+    role,
+    getAuthRole,
+  };
 });
