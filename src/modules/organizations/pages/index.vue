@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
+import type { Component } from "vue";
+import superadmin from "~/modules/organizations/templates/superadmin.vue";
 import { useAuthStore } from "~/stores/authStore";
+import type { UserRoles } from "~/supabase/types";
 
 const authStore = useAuthStore();
 const { role } = storeToRefs(authStore);
+
+const templateMapping: Record<UserRoles, Component> = {
+  superadmin,
+};
 </script>
 
 <template>
   <button type="button" @click="authStore.logoutUser">signout</button>
-
-  <h1>this is organizations</h1>
-  <template v-if="role === 'superadmin'"> superadmin view </template>
-  <template v-else-if="role === 'organization-manager'"
-    >organization manager view</template
-  >
+  <component :is="templateMapping[role]" />
 </template>

@@ -6,6 +6,7 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { supabase } from "~/supabase";
+import type { UserRoles } from "~/supabase/types";
 
 export const useAuthStore = defineStore("auth", () => {
   const router = useRouter();
@@ -33,7 +34,7 @@ export const useAuthStore = defineStore("auth", () => {
     if (error) throw new Error(error.message);
 
     auth.value = null;
-    role.value = null;
+    role.value = "client";
 
     router.push({
       name: "login",
@@ -54,7 +55,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   //
 
-  const role = ref<string | null>(null);
+  const role = ref<UserRoles>("client");
 
   async function getAuthRole() {
     const { error, data } = await supabase.from("user_roles").select();

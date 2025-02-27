@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier . --write",
-    "precommit": "eslint . --fix && prettier . --write"
+    "precommit": "eslint . --fix && prettier . --write",
+    "gen": "supabase gen types typescript --local > src/supabase/types.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
