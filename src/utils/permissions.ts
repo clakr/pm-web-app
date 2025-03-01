@@ -20,7 +20,7 @@ type ModuleActionPermissions = {
 
 const moduleActionPermissions: ModuleActionPermissions = {
   organizations: {
-    create: ["superadmin", "organization-manager"],
+    create: ["super_admin", "organization_manager"],
   },
 };
 

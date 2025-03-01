@@ -8,7 +8,7 @@ import { useAuthStore } from "~/stores/authStore";
 const routes: RouterOptions["routes"] = [
   {
     name: "login",
-    path: "/login",
+    path: "/",
     component: () => import("~/modules/authentication/pages/login.vue"),
     meta: {
       requiresAuth: false,
@@ -23,20 +23,26 @@ const routes: RouterOptions["routes"] = [
     },
   },
   {
-    name: "organizations-index",
-    path: "/",
-    component: () => import("~/modules/organizations/pages/index.vue"),
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    name: "organizations-create",
-    path: "/organizations/create",
-    component: () => import("~/modules/organizations/pages/create.vue"),
-    meta: {
-      requiresAuth: true,
-    },
+    path: "/organizations",
+    component: () => import("~/modules/organizations/layouts/base.vue"),
+    children: [
+      {
+        name: "organizations-index",
+        path: "",
+        component: () => import("~/modules/organizations/pages/index.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        name: "organizations-create",
+        path: "create",
+        component: () => import("~/modules/organizations/pages/create.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+    ],
   },
 ];
 
