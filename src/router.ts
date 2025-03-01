@@ -30,6 +30,14 @@ const routes: RouterOptions["routes"] = [
       requiresAuth: true,
     },
   },
+  {
+    name: "organizations-create",
+    path: "/organizations/create",
+    component: () => import("~/modules/organizations/pages/create.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ];
 
 export const router = createRouter({

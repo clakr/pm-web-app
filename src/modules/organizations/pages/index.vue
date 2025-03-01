@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 import { useQuery } from "@tanstack/vue-query";
-import CreateOrganizationDialog from "~/modules/organizations/features/create-organization-dialog.vue";
 import { useAuthStore } from "~/stores/authStore";
 import { supabase } from "~/supabase";
 import { can } from "~/utils/permissions";
@@ -22,7 +21,8 @@ const { data: organizations } = useQuery({
 
 <template>
   <nav class="border-base-300 border-b p-2">
-    <div class="mx-auto flex max-w-7xl items-center justify-end">
+    <div class="mx-auto flex max-w-7xl items-center justify-between">
+      <RouterLink to="/" class="btn btn-ghost"> Home </RouterLink>
       <div class="dropdown dropdown-end dropdown-hover">
         <button type="button" class="btn btn-square border-none bg-transparent">
           <img
@@ -47,14 +47,14 @@ const { data: organizations } = useQuery({
   <main class="mx-auto grid max-w-7xl gap-y-8 px-2 py-4">
     <header class="flex items-end justify-between">
       <h1 class="text-4xl font-bold">Organizations</h1>
-      <button
+      <RouterLink
         v-if="can('CREATE', 'ORGANIZATIONS')"
-        type="button"
+        to="/organizations/create"
         class="btn justify-self-end"
-        onclick="create_organization_modal.showModal()"
       >
+        <Icon icon="bx:plus" />
         Create Organization
-      </button>
+      </RouterLink>
     </header>
     <section
       class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-x-8 gap-y-6"
@@ -73,6 +73,4 @@ const { data: organizations } = useQuery({
       </RouterLink>
     </section>
   </main>
-
-  <CreateOrganizationDialog />
 </template>
