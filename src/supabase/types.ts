@@ -1,6 +1,12 @@
-import type { Database } from "~/supabase/gen-types";
+import type {
+  Enums,
+  Tables,
+  TablesInsert,
+  TablesUpdate,
+} from "~/supabase/gen-types";
 
-export type UserRoles = Database["public"]["Enums"]["user_roles_enum"];
+export type UserRoles = Enums<"user_roles_enum">;
 
-export type InsertOrganization =
-  Database["public"]["Tables"]["organizations"]["Insert"];
+export type Organization = Tables<"organizations">;
+export type InsertOrganization = TablesInsert<"organizations">;
+export type UpdateOrganization = TablesUpdate<"organizations">;

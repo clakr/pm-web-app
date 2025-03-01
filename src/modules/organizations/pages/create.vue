@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
-import { useMutation } from "@tanstack/vue-query";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import { supabase } from "~/supabase";
 import type { InsertOrganization } from "~/supabase/types";
 
 const router = useRouter();
+
+const queryClient = useQueryClient();
 
 const form = reactive<InsertOrganization>({
   name: "",
@@ -23,6 +25,8 @@ const { mutate, isError, error } = useMutation({
     return data;
   },
   onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["organizations"] });
+
     router.push({
       name: "organizations-index",
     });
@@ -39,7 +43,7 @@ const { mutate, isError, error } = useMutation({
         <span>{{ error }}</span>
       </div>
       <div class="grid gap-y-1">
-        <label for="organization-name" class="label text-sm">Name </label>
+        <label for="organization-name" class="label text-sm">Name</label>
         <input
           type="text"
           id="organization-name"

@@ -1,3 +1,4 @@
+import { storeToRefs } from "pinia";
 import {
   createMemoryHistory,
   createRouter,
@@ -42,6 +43,14 @@ const routes: RouterOptions["routes"] = [
           requiresAuth: true,
         },
       },
+      {
+        name: "organizations-edit",
+        path: ":organizationId/edit",
+        component: () => import("~/modules/organizations/pages/edit.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
     ],
   },
 ];
@@ -53,13 +62,13 @@ export const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   const authStore = useAuthStore();
-  const isAuthenticated = authStore.isAuthenticated;
+  const { isAuthenticated } = storeToRefs(authStore);
 
   try {
     if (to.meta.requiresAuth) {
       await authStore.getSessionUser();
 
-      if (isAuthenticated) {
+      if (isAuthenticated.value) {
         return true;
       } else {
         return {
@@ -67,7 +76,7 @@ router.beforeEach(async (to, from) => {
         };
       }
     } else {
-      if (isAuthenticated) {
+      if (isAuthenticated.value) {
         return {
           name: from.name,
         };

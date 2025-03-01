@@ -39,9 +39,42 @@ const { data: organizations } = useQuery({
         :to="`/organizations/${organization.id}`"
       >
         <div class="card-body">
-          <h2 class="card-title">
-            {{ organization.name }}
-          </h2>
+          <div
+            class="card-title grid grid-cols-[max-content_1fr_max-content] gap-x-4"
+          >
+            <img src="https://placehold.co/40" alt="" class="rounded" />
+            <h2 class="leading-none">
+              {{ organization.name }}
+            </h2>
+            <div class="dropdown dropdown-center">
+              <button type="button" class="btn btn-square btn-ghost">
+                <Icon icon="bx:dots-vertical-rounded" class="size-5" />
+              </button>
+              <ul
+                tabindex="0"
+                class="dropdown-content menu bg-base-100 rounded-box z-1 p-2 shadow-sm"
+              >
+                <li>
+                  <RouterLink :to="`/organizations/${organization.id}`">
+                    <Icon icon="bx:show" />
+                    View
+                  </RouterLink>
+                </li>
+                <li v-if="can('UPDATE', 'ORGANIZATIONS')">
+                  <RouterLink :to="`/organizations/${organization.id}/edit`">
+                    <Icon icon="bx:pencil" />
+                    Update
+                  </RouterLink>
+                </li>
+                <li v-if="can('DELETE', 'ORGANIZATIONS')">
+                  <button type="button">
+                    <Icon icon="bx:trash" />
+                    Delete
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </RouterLink>
     </section>

@@ -4,6 +4,8 @@ import type { UserRoles } from "~/supabase/types";
 
 export enum Actions {
   CREATE = "create",
+  UPDATE = "update",
+  DELETE = "delete",
 }
 
 export enum Modules {
@@ -13,14 +15,16 @@ export enum Modules {
 type EnumValue<T> = T[keyof T];
 
 type ModuleActionPermissions = {
-  [key in EnumValue<typeof Modules>]?: {
-    [key in EnumValue<typeof Actions>]?: UserRoles[];
+  [key in EnumValue<typeof Modules>]: {
+    [key in EnumValue<typeof Actions>]: UserRoles[];
   };
 };
 
 const moduleActionPermissions: ModuleActionPermissions = {
   organizations: {
     create: ["super_admin", "organization_manager"],
+    update: ["super_admin", "organization_manager"],
+    delete: ["super_admin"],
   },
 };
 
