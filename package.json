@@ -14,14 +14,16 @@
     "gen": "supabase gen types typescript --local > src/supabase/types.ts"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.49.1",
-    "pinia": "^3.0.1",
+    "@supabase/supabase-js": "2.49.1",
+    "@tanstack/vue-query": "5.66.11",
+    "pinia": "3.0.1",
     "vue": "3.5.13",
     "vue-router": "4.5.0"
   },
   "devDependencies": {
     "@iconify/vue": "4.3.0",
     "@tailwindcss/vite": "4.0.8",
+    "@tanstack/vue-query-devtools": "5.66.11",
     "@trivago/prettier-plugin-sort-imports": "5.2.2",
     "@types/node": "22.13.5",
     "@vitejs/plugin-vue": "5.2.1",

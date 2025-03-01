@@ -1,20 +1,17 @@
 <script setup lang="ts">
 import CreateOrganizationDialog from "../features/create-organization-dialog.vue";
-import { onMounted } from "vue";
-import { ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
 import { supabase } from "~/supabase";
-import type { Database } from "~/supabase/types";
 
-const organizations = ref<
-  Database["public"]["Tables"]["organizations"]["Row"][]
->([]);
+const { data } = useQuery({
+  queryKey: ["organizations"],
+  queryFn: async () => {
+    const { error, data } = await supabase.from("organizations").select();
 
-onMounted(async () => {
-  const { data, error } = await supabase.from("organizations").select("*");
+    if (error) throw new Error(error.message);
 
-  if (error) throw new Error(error.message);
-
-  organizations.value = data;
+    return data;
+  },
 });
 </script>
 
@@ -27,7 +24,7 @@ onMounted(async () => {
     Create Organization
   </button>
 
-  <pre>{{ organizations }}</pre>
+  <pre>{{ data }}</pre>
 
   <CreateOrganizationDialog />
 </template>
