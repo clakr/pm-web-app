@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import type { Database } from "~/supabase/types";
+import type { Database } from "~/supabase/gen-types";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 if (!supabaseUrl) throw new Error("no supabaseUrl found");

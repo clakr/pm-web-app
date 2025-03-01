@@ -11,7 +11,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier . --write",
     "precommit": "eslint . --fix && prettier . --write",
-    "gen": "supabase gen types typescript --local > src/supabase/types.ts"
+    "gen": "supabase gen types typescript --local > src/supabase/gen-types.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.49.1",
@@ -28,7 +28,7 @@
     "@types/node": "22.13.5",
     "@vitejs/plugin-vue": "5.2.1",
     "@vue/tsconfig": "0.7.0",
-    "daisyui": "5.0.0-beta.8",
+    "daisyui": "5.0.0",
     "eslint": "9.21.0",
     "eslint-plugin-vue": "9.32.0",
     "prettier": "3.5.2",

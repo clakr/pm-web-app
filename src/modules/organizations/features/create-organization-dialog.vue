@@ -2,7 +2,7 @@
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { reactive } from "vue";
 import { supabase } from "~/supabase";
-import type { Database } from "~/supabase/types";
+import type { Database } from "~/supabase/gen-types";
 
 const queryClient = useQueryClient();
 
@@ -10,7 +10,7 @@ const form = reactive<Database["public"]["Tables"]["organizations"]["Insert"]>({
   name: "",
 });
 
-const { isError, error, mutate, data } = useMutation({
+const { isError, error, mutate } = useMutation({
   mutationFn: async () => {
     const { error, data } = await supabase
       .from("organizations")
@@ -22,7 +22,11 @@ const { isError, error, mutate, data } = useMutation({
   },
   onSuccess: () => {
     queryClient.invalidateQueries({ queryKey: ["organizations"] });
-    create_organization_modal.close();
+
+    const modal = document.querySelector<HTMLDialogElement>(
+      "dialog#create_organization_modal",
+    );
+    modal?.close();
   },
 });
 </script>
@@ -30,8 +34,9 @@ const { isError, error, mutate, data } = useMutation({
 <template>
   <dialog id="create_organization_modal" class="modal">
     <form class="modal-box grid gap-y-4" @submit.prevent="mutate()">
-      <span v-if="isError">{{ error }}</span>
-      <span>{{ data }}</span>
+      <template v-if="isError">
+        {{ error }}
+      </template>
       <div class="grid">
         <h3 class="text-lg/tight font-bold">Create Organization</h3>
         <p class="text-base-content/50 text-sm">
